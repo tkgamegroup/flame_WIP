@@ -1,0 +1,1 @@
+"../../../bin/debug/texture_packer" -o atlas/main.atlas
