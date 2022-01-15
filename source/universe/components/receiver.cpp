@@ -5,6 +5,17 @@
 
 namespace flame
 {
+	void cReceiverPrivate::set_state(StateFlags s)
+	{
+		if (state == s)
+			return;
+		last_state = state;
+		state = s;
+
+		for (auto& l : message_listeners.list)
+			l("state_changed"_h, (void*)state, (void*)last_state);
+	}
+
 	bool cReceiverPrivate::is_active()
 	{
 		return dispatcher->active == this;

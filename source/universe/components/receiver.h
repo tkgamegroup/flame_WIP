@@ -9,10 +9,15 @@ namespace flame
 		inline static auto type_name = "flame::cReceiver";
 		inline static auto type_hash = ch(type_name);
 
+		StateFlags state = StateNone;
+		StateFlags last_state = StateNone;
+
 		cReceiver() :
 			Component(type_name, type_hash)
 		{
 		}
+
+		virtual void set_state(StateFlags state) = 0;
 
 		virtual bool get_mute() const = 0;
 		virtual void set_mute(bool v) = 0;
