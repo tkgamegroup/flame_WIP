@@ -14,11 +14,6 @@ namespace flame
 		std::string height_map_name;
 		std::string material_name;
 
-		ShadingFlags shading_flags = ShadingMaterial;
-
-		cNodePrivate* node = nullptr;
-		sRendererPrivate* s_renderer = nullptr;
-
 		graphics::Image* height_texture = nullptr;
 		std::unique_ptr<graphics::Image> normal_texture;
 		std::unique_ptr<graphics::Image> tangent_texture;
@@ -41,13 +36,6 @@ namespace flame
 		const char* get_material_name() const override { return material_name.c_str(); }
 		void set_material_name(std::string_view name);
 		void set_material_name(const char* name) override { set_material_name(std::string(name)); }
-
-		ShadingFlags get_shading_flags() const override { return shading_flags; }
-		void set_shading_flags(ShadingFlags flags) override;
-
-		graphics::Image* get_height_texture() const override { return height_texture; }
-		graphics::Image* get_normal_texture() const override { return normal_texture.get(); }
-		graphics::Image* get_tangent_texture() const override { return tangent_texture.get(); }
 
 		void draw(sRendererPtr s_renderer, bool, bool) override;
 
