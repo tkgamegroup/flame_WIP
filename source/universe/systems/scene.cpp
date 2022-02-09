@@ -81,41 +81,6 @@ namespace flame
 		}
 	}
 
-	void sScenePrivate::add_to_update_bounds(cNodePrivate* n)
-	{
-		auto depth = n->entity->depth;
-		auto it = update_bounds_list.begin();
-		for (; it != update_bounds_list.end(); it++)
-		{
-			if (it->first == depth)
-			{
-				it->second.push_back(n);
-				return;
-			}
-			if (it->first < depth)
-				break;
-		}
-		std::pair<uint, std::deque<cNodePrivate*>> v;
-		v.first = depth;
-		v.second.push_back(n);
-		update_bounds_list.insert(it, v);
-	}
-
-	void sScenePrivate::remove_from_update_bounds(cNodePrivate* n)
-	{
-		auto depth = n->entity->depth;
-		for (auto& v : update_bounds_list)
-		{
-			if (v.first == depth)
-			{
-				std::erase_if(v.second, [&](const auto& i) {
-					return i == n;
-				});
-				break;
-			}
-		}
-	}
-
 	static void apply_basic_h(cElementPrivate* e, cElementPrivate* target, bool force_align)
 	{
 		auto alignx = target->alignx;
@@ -455,55 +420,6 @@ namespace flame
 			}
 			
 			l->pending_layout = false;
-		}
-
-		while (!update_bounds_list.empty())
-		{
-			auto& v = update_bounds_list.front();
-			if (v.second.empty())
-			{
-				update_bounds_list.pop_front();
-				continue;
-			}
-
-			auto n = v.second.front();
-			v.second.pop_front();
-
-			n->update_transform();
-
-			n->bounds.reset();
-			for (auto m : n->measurers.list)
-			{
-				AABB b;
-				b.reset();
-				if (m(&b) && !b.invalid())
-					n->bounds.expand(b);
-			}
-
-			if (!n->assemble_sub)
-			{
-				for (auto& c : n->entity->children)
-				{
-					auto node = c->get_component_i<cNodePrivate>(0);
-					if (node && !n->bounds.invalid())
-						n->bounds.expand(node->bounds);
-				}
-			}
-
-			n->data_changed(S<"bounds"_h>);
-
-			if (n->octnode.first)
-			{
-				if (!n->octnode.second)
-					n->octnode.first->add(n);
-				else
-				{
-					n->octnode.second->remove(n);
-					n->octnode.first->add(n);
-				}
-			}
-
-			n->pending_update_bounds = false;
 		}
 	}
 
