@@ -75,60 +75,6 @@ void SceneEditor::on_menu_bar()
 
 		ImGui::EndMenu();
 	}
-	if (ImGui::BeginMenu("Edit"))
-	{
-		if (ImGui::MenuItem("Delete", "Del"))
-			on_delete();
-
-		ImGui::EndMenu();
-	}
-}
-
-void SceneEditor::on_toolbar()
-{
-	if (ImGui::ImageButton_s(select_image.get(), ImVec2(16, 16), curr_tool == nullptr))
-		curr_tool = nullptr;
-	ImGui::SameLine();
-	if (ImGui::ImageButton_s(move_image.get(), ImVec2(16, 16), curr_tool && curr_tool == transformerTool.get() && transformerTool->operation == TransformerTool::TRANSLATE))
-	{
-		curr_tool = transformerTool.get();
-		transformerTool->operation = TransformerTool::TRANSLATE;
-	}
-	ImGui::SameLine();
-	if (ImGui::ImageButton_s(rotate_image.get(), ImVec2(16, 16), curr_tool && curr_tool == transformerTool.get() && transformerTool->operation == TransformerTool::ROTATE))
-	{
-		curr_tool = transformerTool.get();
-		transformerTool->operation = TransformerTool::ROTATE;
-	}
-	ImGui::SameLine();
-	if (ImGui::ImageButton_s(scale_image.get(), ImVec2(16, 16), curr_tool && curr_tool == transformerTool.get() && transformerTool->operation == TransformerTool::SCALE))
-	{
-		curr_tool = transformerTool.get();
-		transformerTool->operation = TransformerTool::SCALE;
-	}
-	ImGui::SameLine();
-	if (curr_tool == transformerTool.get())
-	{
-		ImGui::Checkbox("snap", &transformerTool->enable_snap);
-		ImGui::SameLine();
-		if (transformerTool->enable_snap)
-		{
-			ImGui::PushItemWidth(100.f);
-			switch (transformerTool->operation)
-			{
-				case TransformerTool::TRANSLATE:
-					ImGui::DragFloat3("##snap_value", &transformerTool->translate_snap[0], 0.1f, 0.f, 10000.f);
-					break;
-				case TransformerTool::ROTATE:
-					ImGui::DragFloat("##snap_value", &transformerTool->rotate_snap, 0.1f, 0.f, 10000.f);
-					break;
-				case TransformerTool::SCALE:
-					ImGui::DragFloat("##snap_value", &transformerTool->scale_snap, 0.1f, 0.f, 10000.f);
-					break;
-			}
-			ImGui::PopItemWidth();
-		}
-	}
 }
 
 void SceneEditor::on_show()
