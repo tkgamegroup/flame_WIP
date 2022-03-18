@@ -66,8 +66,6 @@ namespace flame
 			auto h1 = h + 1;
 			std::vector<uint> samples(w1 * h1);
 			auto dst = (PxHeightFieldSample*)samples.data();
-			auto lvhf = tess_levels >> 1;
-			auto idx = 0;
 			for (auto x = 0; x < w1; x++)
 			{
 				for (auto y = 0; y < h1; y++)
@@ -76,8 +74,8 @@ namespace flame
 
 					dst->materialIndex0 = 0;
 					dst->materialIndex1 = 0;
-					auto s1 = x % tess_levels < lvhf ? 1 : -1;
-					auto s2 = y % tess_levels < lvhf ? 1 : -1;
+					auto s1 = x % tess_levels < tess_levels / 2 ? 1 : -1;
+					auto s2 = y % tess_levels < tess_levels / 2 ? 1 : -1;
 					if (s1 * s2 > 0)
 						dst->setTessFlag();
 					else

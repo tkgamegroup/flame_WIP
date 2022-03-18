@@ -36,17 +36,6 @@ cResourceExplorer::cResourceExplorer() :
 				c_list_layout->column = 4;
 			}
 				ui.e_begin_popup_menu();
-					ui.e_menu_item(L"New Prefab", [](Capture& c) {
-						auto& ui = scene_editor.window->ui;
-						ui.e_input_dialog(L"name", [](Capture& c, bool ok, const wchar_t* text) {
-							if (ok)
-							{
-								auto e = new<Entity>();
-								Entity::save_to_file(e, (scene_editor.resource_explorer->curr_path / std::filesystem::path(text).replace_extension(L".prefab")).c_str());
-								delete(e);
-							}
-						}, Capture());
-					}, Capture());
 					ui.e_menu_item(L"New BP", [](Capture& c) {
 						auto& ui = scene_editor.window->ui;
 						ui.e_input_dialog(L"name", [](Capture& c, bool ok, const wchar_t* text) {

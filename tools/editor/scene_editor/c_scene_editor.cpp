@@ -58,16 +58,6 @@ cSceneEditor::cSceneEditor() :
 					return true;
 				}, Capture().set_thiz(edt.overlay));
 				ui.current_entity = e_overlay;
-				auto c_receiver = e_overlay->get_component(cReceiver);
-				c_receiver->pass_checkers.add([](Capture&, cReceiver*, bool* pass) {
-					*pass = true;
-					return true;
-				}, Capture());
-				c_receiver->mouse_listeners.add([](Capture& c, KeyStateFlags action, MouseKey key, const ivec2& pos) {
-					if (is_mouse_down(action, key, true) && key == Mouse_Left)
-						scene_editor.select(scene_editor.editor->search_hovering(vec4(vec2(pos), vec2(pos))));
-					return true;
-				}, Capture());
 
 				ui.parents.push(e_overlay);
 					gizmo.create();
