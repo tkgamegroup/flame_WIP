@@ -346,24 +346,6 @@ void InspectorWindow::on_show()
 									}
 									break;
 								}
-								case flame::ComponentTypeTerrain:
-								{
-									if (ImGui::TreeNode("Terrain"))
-									{
-										auto t = (flame::TerrainComponent*)c.get();
-
-										//	ImGui::Text("Blend Map:%s", t->blend_image ? t->blend_image->filename.c_str() : "Null");
-										//	show_material(t->materials[0].get());
-										//	//show_material(t->materials[1].get());
-										//	//show_material(t->materials[2].get());
-										//	//show_material(t->materials[3].get());
-										//	ImGui::Text("Height:%f", t->height);
-										//	ImGui::Text("Use Physx:%s", t->enable_physics ? "Yse" : "No");
-
-										ImGui::TreePop();
-									}
-									break;
-								}
 							}
 						}
 						break;
